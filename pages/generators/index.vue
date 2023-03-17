@@ -1,5 +1,6 @@
 <template>
   <transition-group tag="div" name="flip-list" class="row">
+    <v-col cols="12"><h1>Generators</h1></v-col>
     <v-col
       v-for="generator in generatorsSorted"
       :key="generator.title"

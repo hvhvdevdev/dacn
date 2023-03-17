@@ -32,10 +32,12 @@ export const state = () => ({
         },
         {
           field: 'defender',
+          widget: 'select',
           model: 'Nation',
         },
         {
           field: 'attacker',
+          widget: 'select',
           model: 'Nation',
         },
         {
@@ -55,9 +57,28 @@ export const state = () => ({
   ],
 })
 
-
 export const getters = {
   getModels(state) {
     return state.models
-  }
+  },
+}
+
+export const mutations = {
+  addModel(state, model) {
+    state.models.push(model)
+  },
+  deleteModel(state, name) {
+    state.models = state.models.filter((m) => m.name !== name)
+  },
+}
+
+export const actions = {
+  async addModel({ commit }, model) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    commit('addModel', model)
+  },
+  async deleteModel({ commit }, name) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    commit('deleteModel', name)
+  },
 }

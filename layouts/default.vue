@@ -94,7 +94,7 @@ export default {
           to: '/authors',
         },
         {
-          icon: 'mdi-account-group-outline',
+          icon: 'mdi-book-open',
           title: 'Models',
           to: '/models',
         },
