@@ -94,6 +94,11 @@ export default {
           to: '/authors',
         },
         {
+          icon: 'mdi-account-group-outline',
+          title: 'Models',
+          to: '/models',
+        },
+        {
           icon: 'mdi-crane',
           title: 'Generator',
           to: '/generators',
