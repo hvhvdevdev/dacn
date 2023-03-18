@@ -70,6 +70,10 @@ export const mutations = {
   deleteModel(state, name) {
     state.models = state.models.filter((m) => m.name !== name)
   },
+  updateModel(state, payload) {
+    const index = state.models.findIndex((m) => m.name === payload.modelName)
+    state.models[index] = payload.newModel
+  },
 }
 
 export const actions = {
@@ -80,5 +84,9 @@ export const actions = {
   async deleteModel({ commit }, name) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('deleteModel', name)
+  },
+  async updateModel({ commit }, payload) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    commit('updateModel', payload)
   },
 }

@@ -1,11 +1,11 @@
 <template>
   <v-row justify="center">
     <v-col cols="12">
-      <h1>Create Model</h1>
+      <h1>Edit Model</h1>
     </v-col>
     <v-col cols="12" sm="10" md="8">
       <v-card>
-        <v-card-title>Create New Model</v-card-title>
+        <v-card-title>Editing Model `{{ modelName }}`</v-card-title>
         <v-card-text>
           <v-form v-model="formIsValid">
             <v-text-field v-model="model.name" :rules="notEmpty" label="Name" />
@@ -67,7 +67,7 @@
               :disabled="!formIsValid"
               color="primary"
               :loading="loading"
-              @click="createModel"
+              @click="updateModel"
             >
               <v-icon left>mdi-content-save</v-icon>
               Save
@@ -81,9 +81,10 @@
 
 <script>
 export default {
-  name: 'Create',
+  name: 'Edit',
   data() {
     return {
+      modelName: this.$route.query.model,
       formIsValid: false,
       notEmpty: [(v) => !!v || 'This field must not be empty'],
       widgets: ['text', 'number', 'select', 'rich-text'],
@@ -105,6 +106,11 @@ export default {
       return this.$store.getters['models/getModels']
     },
   },
+  mounted() {
+    this.model = JSON.parse(
+      JSON.stringify(this.models.find((m) => m.name === this.modelName))
+    )
+  },
   methods: {
     addField() {
       this.model.fields.push({
@@ -112,10 +118,13 @@ export default {
         widget: 'text',
       })
     },
-    async createModel() {
+    async updateModel() {
       this.loading = true
-      await this.$store.dispatch('models/addModel', this.model)
-      this.$store.commit('setSnackbarContent', 'Model created successfully')
+      await this.$store.dispatch('models/updateModel', {
+        modelName: this.modelName,
+        newModel: this.model,
+      })
+      this.$store.commit('setSnackbarContent', 'Model updated successfully')
       await this.$router.push('/models')
     },
   },

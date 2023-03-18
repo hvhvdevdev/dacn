@@ -18,7 +18,17 @@
         </v-card-text>
         <v-divider />
         <v-card-actions>
-          <v-btn text color="info">Edit</v-btn>
+          <v-btn
+            text
+            color="info"
+            @click="
+              $router.push({
+                path: '/models/edit',
+                query: { model: model.name },
+              })
+            "
+            >Edit</v-btn
+          >
           <v-btn text color="success">Content</v-btn>
           <DeleteModelButton :model-name="model.name" />
         </v-card-actions>

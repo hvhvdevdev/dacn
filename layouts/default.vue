@@ -100,7 +100,7 @@ export default {
         },
         {
           icon: 'mdi-crane',
-          title: 'Generator',
+          title: 'Generators',
           to: '/generators',
         },
       ],
