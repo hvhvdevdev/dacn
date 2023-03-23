@@ -13,7 +13,7 @@
               :rules="notEmpty"
               label="Title"
             ></v-text-field>
-            <v-textarea v-model="article.content" label="Content"></v-textarea>
+            <RichTextEditor v-model="article.content"></RichTextEditor>
             <v-autocomplete
               v-model="article.tags"
               :items="tags"
