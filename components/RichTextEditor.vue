@@ -44,7 +44,7 @@ export default {
       default: () => 'Content',
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['input'],
   data() {
     return {
       extensions: [
