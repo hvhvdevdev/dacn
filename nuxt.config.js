@@ -6,7 +6,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - headless-cms',
+    titleTemplate: 'Nameless CMS',
     title: 'headless-cms',
     htmlAttrs: {
       lang: 'en',

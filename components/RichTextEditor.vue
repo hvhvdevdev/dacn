@@ -1,10 +1,10 @@
 <template>
   <div>
-    <p class='v-label'>{{ label }}</p>
+    <p class="v-label">{{ label }}</p>
     <TiptapVuetify
-      :extensions='extensions'
-      :value='value'
-      @input="$emit('input', $event);"
+      :extensions="extensions"
+      :value="value"
+      @input="$emit('input', $event)"
     />
   </div>
 </template>
@@ -42,7 +42,7 @@ export default {
       type: String,
       required: false,
       default: () => 'Content',
-    }
+    },
   },
   emits: ['input'],
   data() {

@@ -99,6 +99,11 @@ export default {
           to: '/models',
         },
         {
+          icon: 'mdi-format-list-bulleted-type',
+          title: 'Content',
+          to: '/content',
+        },
+        {
           icon: 'mdi-crane',
           title: 'Generators',
           to: '/generators',
