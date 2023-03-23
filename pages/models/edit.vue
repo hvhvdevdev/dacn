@@ -87,7 +87,7 @@ export default {
       modelName: this.$route.query.model,
       formIsValid: false,
       notEmpty: [(v) => !!v || 'This field must not be empty'],
-      widgets: ['text', 'number', 'select', 'rich-text'],
+      widgets: ['text', 'number', 'select', 'rich-text', 'date'],
       loading: false,
       model: {
         name: '',
