@@ -13,6 +13,11 @@
         dense
         clearable
       ></v-select>
+      <br />
+      <v-btn color="primary">
+        <v-icon left>mdi-plus</v-icon>
+        Create
+      </v-btn>
       <v-simple-table height="600" fixed-header>
         <thead>
           <tr>
@@ -35,7 +40,7 @@
                   <v-btn
                     :to="{
                       path: '/content/edit',
-                      query: { article: entry._identifier },
+                      query: { id: entry._identifier, model: entry._model },
                     }"
                     icon
                     color="info"
