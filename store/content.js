@@ -55,7 +55,7 @@ export const mutations = {
   },
   createEntry(state, payload) {
     state.entries[payload.model].push(payload.data)
-  }
+  },
 }
 
 export const actions = {
@@ -63,12 +63,12 @@ export const actions = {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('deleteEntry', payload)
   },
-  async editEntry({commit}, payload) {
+  async editEntry({ commit }, payload) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('updateEntry', payload)
   },
   async createEntry({ commit }, payload) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('createEntry', payload)
-  }
+  },
 }
