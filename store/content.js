@@ -40,3 +40,35 @@ export const getters = {
     return state.entries
   },
 }
+
+export const mutations = {
+  deleteEntry(state, payload) {
+    state.entries[payload.model] = state.entries[payload.model].filter(
+      (e) => e[payload.idField] !== payload.id
+    )
+  },
+  updateEntry(state, payload) {
+    const index = state.entries[payload.model].findIndex(
+      (e) => e[payload.idField] === payload.id
+    )
+    state.entries[payload.model][index] = payload.data
+  },
+  createEntry(state, payload) {
+    state.entries[payload.model].push(payload.data)
+  }
+}
+
+export const actions = {
+  async deleteEntry({ commit }, payload) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    commit('deleteEntry', payload)
+  },
+  async editEntry({commit}, payload) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    commit('updateEntry', payload)
+  },
+  async createEntry({ commit }, payload) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    commit('createEntry', payload)
+  }
+}

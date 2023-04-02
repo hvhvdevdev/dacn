@@ -5,7 +5,7 @@
       <v-select
         v-model="filterModel"
         outlined
-        class='d-inline-block'
+        class="d-inline-block"
         label="Model"
         :items="models"
         item-text="name"
@@ -18,6 +18,7 @@
           <tr>
             <th>Identifier</th>
             <th>Model</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +28,30 @@
             </td>
             <td>
               {{ entry._model }}
+            </td>
+            <td>
+              <v-tooltip top>
+                <template #activator="{ on, attrs }">
+                  <v-btn
+                    :to="{
+                      path: '/content/edit',
+                      query: { article: entry._identifier },
+                    }"
+                    icon
+                    color="info"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                </template>
+                <span>Edit</span>
+              </v-tooltip>
+              <DeleteEntryButton
+                :entry-identifier="entry._identifier"
+                :model-name="entry._model"
+                :id-field="entry._identifierField"
+              ></DeleteEntryButton>
             </td>
           </tr>
         </tbody>
@@ -56,12 +81,14 @@ export default {
     },
     filteredEntries() {
       return Object.entries(this.entries).flatMap(([k, v]) =>
-        v.map((x) => ({
-          _model: k,
-          _identifier: x[this.models.find((m) => m.name === k).identifier],
-          ...x,
-        }))
-        .filter(x => !this.filterModel || x._model === this.filterModel)
+        v
+          .map((x) => ({
+            _model: k,
+            _identifier: x[this.models.find((m) => m.name === k).identifier],
+            _identifierField: this.models.find((m) => m.name === k).identifier,
+            ...x,
+          }))
+          .filter((x) => !this.filterModel || x._model === this.filterModel)
       )
     },
   },
