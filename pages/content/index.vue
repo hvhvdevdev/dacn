@@ -14,7 +14,11 @@
         clearable
       ></v-select>
       <br />
-      <v-btn color="primary">
+      <v-btn
+        :disabled="!filterModel"
+        color="primary"
+        @click="$router.push('/content/create?model=' + filterModel)"
+      >
         <v-icon left>mdi-plus</v-icon>
         Create
       </v-btn>
