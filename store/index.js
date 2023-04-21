@@ -102,37 +102,24 @@ export const actions = {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('setArticles', articles)
   },
-  async deleteArticle({ commit }, title) {
+  async deleteArticle({ commit, dispatch }, title) {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     commit('removeArticles', title)
+    await dispatch('git/writeArticles', {})
   },
-  async publishArticle({ commit, getters }, title) {
+  async publishArticle({ commit, dispatch }, title) {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     commit('setArticlePublished', title)
-
-    const urlPrefix = `https://api.github.com/repos/${getters['auth/getRepository']}/`
-    const sha = (await this.$axios.$get(urlPrefix + 'branches/main')).commit.sha
-    const tree = (
-      await this.$axios.$get(urlPrefix + 'git/trees/' + sha + '?recursive=1')
-    ).tree
-    const articlesOnGit = tree.filter((a) => a.path.startsWith('articles/'))
-    const articlesMustBeDeleted = articlesOnGit.filter(
-      (a) =>
-        !getters.getArticles
-          .map((x) => `articles/${x.title}.md`)
-          .includes(a.path)
-    )
-    const articlesToUpdate = articlesOnGit.filter(
-      (a) => !articlesMustBeDeleted.includes(a)
-    )
-    console.log(articlesMustBeDeleted, articlesToUpdate)
+    await dispatch('git/writeArticles', {})
   },
-  async updateArticle({ commit }, payload) {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+  async updateArticle({ commit, dispatch }, payload) {
     commit('updateArticle', payload)
-  },
-  async createArticle({ commit }, article) {
     await new Promise((resolve) => setTimeout(resolve, 2000))
+    await dispatch('git/writeArticles', {})
+  },
+  async createArticle({ commit, dispatch }, article) {
     commit('createArticle', article)
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await dispatch('git/writeArticles', {})
   },
 }

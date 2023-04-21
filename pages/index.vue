@@ -83,11 +83,5 @@ export default {
       return Math.round((this.countArticles / this.countAuthors) * 10) / 10
     },
   },
-  mounted() {
-    this.$store.dispatch(
-      'auth/doLogin',
-      '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'
-    )
-  },
 }
 </script>
