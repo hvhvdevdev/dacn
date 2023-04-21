@@ -3,7 +3,7 @@ export const getters = {
     return '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'
   },
   getRepository() {
-    return 'hvhvdevdev/demo-write'
+    return 'hvhvdevdev/minimal-mistakes'
   },
 }
 
