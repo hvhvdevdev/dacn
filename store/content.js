@@ -25,7 +25,7 @@ export const state = () => ({
         code: 'DBP',
         name: 'Battle of Dien Bien Phu',
         description:
-          'The Battle of Điện Biên Phủ was a climactic confrontation of the First Indochina War that took place between 13 March and 7 May 1954',
+          'The Battle of Dien Bien Phu was a climactic confrontation of the First Indochina War that took place between 13 March and 7 May 1954',
         defender: 'NVN',
         attacker: 'FRU',
         'defender-loss': 123,
@@ -59,16 +59,19 @@ export const mutations = {
 }
 
 export const actions = {
-  async deleteEntry({ commit }, payload) {
+  async deleteEntry({ commit, dispatch }, payload) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('deleteEntry', payload)
+    await dispatch('git/writeData', {}, { root: true })
   },
-  async editEntry({ commit }, payload) {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+  async editEntry({ commit, dispatch }, payload) {
     commit('updateEntry', payload)
-  },
-  async createEntry({ commit }, payload) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
+    await dispatch('git/writeData', {}, { root: true })
+  },
+  async createEntry({ commit, dispatch }, payload) {
     commit('createEntry', payload)
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await dispatch('git/writeData', {}, { root: true })
   },
 }

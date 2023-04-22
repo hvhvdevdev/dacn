@@ -5,6 +5,60 @@ export const getters = {}
 export const mutations = {}
 
 export const actions = {
+  async writeData({ rootGetters }) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    const getters = rootGetters
+    const urlPrefix = `https://api.github.com/repos/${getters['auth/getRepository']}/`
+    const sha = (
+      await this.$axios.$get(
+        urlPrefix + `branches/main?timestamp=${new Date().getTime()}`
+      )
+    ).commit.sha
+    const tree = (
+      await this.$axios.$get(
+        urlPrefix +
+          'git/trees/' +
+          sha +
+          `?recursive=1&timestamp=${new Date().getTime()}`
+      )
+    ).tree
+    const modelsOnGit = tree
+      .filter((m) => m.path.startsWith('_data/data_'))
+      .map((m) => m.path.replace(/(^_data\/data_)|(\.json)/g, ''))
+    const models = getters['models/getModels'].map((m) => m.name)
+    const modelsToDelete = modelsOnGit.filter((m) => !models.includes(m))
+    const modelsToUpdate = modelsOnGit.filter(
+      (m) => !modelsToDelete.includes(m)
+    )
+    const modelsToCreate = models.filter((m) => !modelsToUpdate.includes(m))
+    for (const model of modelsToUpdate) {
+      await this.$axios.$put(urlPrefix + 'contents/' + modelPath(model), {
+        message: `update data for model ${model}`,
+        sha: modelSha(tree, model),
+        content: btoa(
+          JSON.stringify(getters['content/getEntries'][model] ?? [], null, 2)
+        ),
+      })
+    }
+    for (const model of modelsToDelete) {
+      await this.$axios.$delete(urlPrefix + 'contents/' + modelPath(model), {
+        data: {
+          message: `delete model ${model}`,
+          sha: modelSha(tree, model),
+        },
+      })
+    }
+    for (const model of modelsToCreate) {
+      await this.$axios.$put(urlPrefix + 'contents/' + modelPath(model), {
+        message: `create model ${model}`,
+        content: btoa(
+          JSON.stringify(getters['content/getEntries'][model] ?? [], null, 2)
+        ),
+      })
+    }
+    console.log(modelsToUpdate, modelsToCreate, modelsToDelete)
+  },
+
   async writeArticles({ rootGetters }) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     const getters = rootGetters
@@ -91,6 +145,19 @@ function articlePath(article) {
 
 function articleContent(article) {
   return btoa(
-    `---\ntitle: ${JSON.stringify(article.title)}\nlayout: posts\ntags: ${article.tags.join()}\n---\n\n` + article.content
+    `---\ntitle: ${JSON.stringify(
+      article.title
+    )}\nlayout: posts\ntags: ${article.tags.join()}\n---\n\n` + article.content
   )
+}
+
+function modelPath(modelName) {
+  return `_data/data_${modelName}.json`
+}
+
+function modelSha(tree, modelName) {
+  return tree
+    .filter((m) => m.path.startsWith('_data/data_'))
+    .find((m) => m.path.replace(/(^_data\/data_)|(\.json)/g, '') === modelName)
+    .sha
 }
