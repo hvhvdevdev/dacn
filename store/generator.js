@@ -1,6 +1,6 @@
 export const state = () => ({
   repository: 'hvhvdevdev/minimal-mistakes',
-  postLayout: 'posts'
+  postLayout: 'posts',
 })
 
 export const getters = {
@@ -9,5 +9,19 @@ export const getters = {
   },
   getPostLayout(state) {
     return state.postLayout
-  }
+  },
+}
+
+export const mutations = {
+  setJekyllSettings(state, payload) {
+    state.postLayout = payload.postLayout
+    state.repository = payload.repository
+  },
+}
+
+export const actions = {
+  async setJekyllSettings({ commit }, payload) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    commit('setJekyllSettings', payload)
+  },
 }

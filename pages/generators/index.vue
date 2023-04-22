@@ -15,17 +15,9 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn
-            v-if="generator.active"
-            text
-            color="error"
-            @click="generator.active = false"
-            >Disable
-          </v-btn>
-          <v-btn v-else text color="success" @click="generator.active = true"
-            >Enable
-          </v-btn>
-          <v-btn text color="info">Settings</v-btn>
+          <v-btn v-if="generator.active" text color="warning">In Use </v-btn>
+          <v-btn v-else text color="success" disabled>N/A </v-btn>
+          <v-btn text color="info" :to="generator.link">Settings</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -43,12 +35,13 @@ export default {
           description:
             'Jekyll is a static site generator written in Ruby by Tom Preston-Werner. It is distributed under the open source MIT license',
           active: true,
+          link: '/generators/jekyll',
         },
         {
           title: 'LaTeX',
           description:
             'LaTeX is a software system for document preparation. When writing, the writer uses plain text as opposed to the formatted text found in WYSIWYG word processors like Microsoft Word, LibreOffice Writer and Apple Pages',
-          active: true,
+          active: false,
         },
         {
           title: 'Hugo',

@@ -13,9 +13,9 @@ async function getTree(urlPrefix) {
   return (
     await this.$axios.$get(
       urlPrefix +
-      'git/trees/' +
-      sha +
-      `?recursive=1&timestamp=${new Date().getTime()}`
+        'git/trees/' +
+        sha +
+        `?recursive=1&timestamp=${new Date().getTime()}`
     )
   ).tree
 }
@@ -72,16 +72,16 @@ export const actions = {
       .filter(
         (a) =>
           !getters.getArticles
-            .map((x) => `_posts/${x.title}.md`)
+            .map((x) => `_posts/${x.date}-${x.title}.md`)
             .includes(a.path)
       )
       .map((a) => a.path)
     const articlesToUpdate = articlesOnGit
-      .map((a) => a.path.replace(/(^_posts\/..........)|(\.md$)/g, ''))
+      .map((a) => a.path.replace(/(^_posts\/...........)|(\.md$)/g, ''))
       .filter(
         (a) =>
           !articlesMustBeDeleted
-            .map((x) => x.replace(/(^_posts\/..........)|(\.md$)/g, ''))
+            .map((x) => x.replace(/(^_posts\/...........)|(\.md$)/g, ''))
             .includes(a)
       )
     const articlesToCreate = getters.getArticles
@@ -103,7 +103,8 @@ export const actions = {
           articlePath(getters.getArticles.find((a) => a.title === article)),
         {
           message: `update article ${article}`,
-          content: articleContent(
+          content: articleContent.call(
+            this,
             getters.getArticles.find((a) => a.title === article)
           ),
           sha: articlesOnGit.find(
@@ -121,7 +122,8 @@ export const actions = {
           articlePath(getters.getArticles.find((a) => a.title === article)),
         {
           message: `create article ${article}`,
-          content: articleContent(
+          content: articleContent.call(
+            this,
             getters.getArticles.find((a) => a.title === article)
           ),
         }
@@ -136,9 +138,9 @@ function articlePath(article) {
 
 function articleContent(article) {
   return btoa(
-    `---\ntitle: ${JSON.stringify(
-      article.title
-    )}\nlayout: posts\ntags: ${article.tags.join()}\n---\n\n` + article.content
+    `---\ntitle: ${JSON.stringify(article.title)}\nlayout: ${
+      this.getters['generator/getPostLayout']
+    }\ntags: ${article.tags.join()}\n---\n\n` + article.content
   )
 }
 
