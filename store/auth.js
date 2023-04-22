@@ -2,9 +2,6 @@ export const getters = {
   getToken() {
     return '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'
   },
-  getRepository() {
-    return 'hvhvdevdev/minimal-mistakes'
-  },
 }
 
 export const actions = {

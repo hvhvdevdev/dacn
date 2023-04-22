@@ -24,7 +24,7 @@ export const actions = {
   async writeData({ rootGetters }) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     const getters = rootGetters
-    const urlPrefix = `https://api.github.com/repos/${getters['auth/getRepository']}/`
+    const urlPrefix = `https://api.github.com/repos/${getters['generator/getRepository']}/`
     const tree = await getTree.call(this, urlPrefix)
     const modelsOnGit = tree
       .filter((m) => m.path.startsWith('_data/data_'))
@@ -65,7 +65,7 @@ export const actions = {
   async writeArticles({ rootGetters }) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     const getters = rootGetters
-    const urlPrefix = `https://api.github.com/repos/${getters['auth/getRepository']}/`
+    const urlPrefix = `https://api.github.com/repos/${getters['generator/getRepository']}/`
     const tree = await getTree.call(this, urlPrefix)
     const articlesOnGit = tree.filter((a) => a.path.startsWith('_posts/'))
     const articlesMustBeDeleted = articlesOnGit
