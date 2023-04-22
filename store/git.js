@@ -10,7 +10,7 @@ async function getTree(urlPrefix) {
       urlPrefix + `branches/main?timestamp=${new Date().getTime()}`
     )
   ).commit.sha
-  const tree = (
+  return (
     await this.$axios.$get(
       urlPrefix +
       'git/trees/' +
@@ -18,7 +18,6 @@ async function getTree(urlPrefix) {
       `?recursive=1&timestamp=${new Date().getTime()}`
     )
   ).tree
-  return tree
 }
 
 export const actions = {
@@ -67,7 +66,7 @@ export const actions = {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     const getters = rootGetters
     const urlPrefix = `https://api.github.com/repos/${getters['auth/getRepository']}/`
-    const sha = (
+    (
       await this.$axios.$get(
         urlPrefix + `branches/main?timestamp=${new Date().getTime()}`
       )
