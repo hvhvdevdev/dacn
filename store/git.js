@@ -4,24 +4,29 @@ export const getters = {}
 
 export const mutations = {}
 
+async function getTree(urlPrefix) {
+  const sha = (
+    await this.$axios.$get(
+      urlPrefix + `branches/main?timestamp=${new Date().getTime()}`
+    )
+  ).commit.sha
+  const tree = (
+    await this.$axios.$get(
+      urlPrefix +
+      'git/trees/' +
+      sha +
+      `?recursive=1&timestamp=${new Date().getTime()}`
+    )
+  ).tree
+  return tree
+}
+
 export const actions = {
   async writeData({ rootGetters }) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     const getters = rootGetters
     const urlPrefix = `https://api.github.com/repos/${getters['auth/getRepository']}/`
-    const sha = (
-      await this.$axios.$get(
-        urlPrefix + `branches/main?timestamp=${new Date().getTime()}`
-      )
-    ).commit.sha
-    const tree = (
-      await this.$axios.$get(
-        urlPrefix +
-          'git/trees/' +
-          sha +
-          `?recursive=1&timestamp=${new Date().getTime()}`
-      )
-    ).tree
+    const tree = await getTree.call(this, urlPrefix)
     const modelsOnGit = tree
       .filter((m) => m.path.startsWith('_data/data_'))
       .map((m) => m.path.replace(/(^_data\/data_)|(\.json)/g, ''))
@@ -56,7 +61,6 @@ export const actions = {
         ),
       })
     }
-    console.log(modelsToUpdate, modelsToCreate, modelsToDelete)
   },
 
   async writeArticles({ rootGetters }) {
@@ -68,14 +72,7 @@ export const actions = {
         urlPrefix + `branches/main?timestamp=${new Date().getTime()}`
       )
     ).commit.sha
-    const tree = (
-      await this.$axios.$get(
-        urlPrefix +
-          'git/trees/' +
-          sha +
-          `?recursive=1&timestamp=${new Date().getTime()}`
-      )
-    ).tree
+    const tree = await getTree.call(this, urlPrefix)
     const articlesOnGit = tree.filter((a) => a.path.startsWith('_posts/'))
     const articlesMustBeDeleted = articlesOnGit
       .filter(

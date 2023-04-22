@@ -56,6 +56,9 @@ export const mutations = {
   createEntry(state, payload) {
     state.entries[payload.model].push(payload.data)
   },
+  addModel(state, modelName) {
+    state.entries[modelName] = []
+  },
 }
 
 export const actions = {

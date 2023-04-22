@@ -80,6 +80,7 @@ export const actions = {
   async addModel({ commit }, model) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('addModel', model)
+    commit('content/addModel', model.name, { root: true })
   },
   async deleteModel({ commit }, name) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
