@@ -21,6 +21,35 @@ async function getTree(urlPrefix) {
 }
 
 export const actions = {
+  async triggerWorkflow({ rootGetters }) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    const urlPrefix = `https://api.github.com/repos/${rootGetters['generator/getRepository']}/`
+    await this.$axios.post(
+      urlPrefix +
+        `actions/workflows/${rootGetters['generator/getGenerator']}/dispatches`,
+      {
+        ref: 'main',
+      }
+    )
+  },
+
+  async writeWorkflow({ rootGetters }, payload) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    const urlPrefix = `https://api.github.com/repos/${rootGetters['generator/getRepository']}/`
+    const tree = await getTree.call(this, urlPrefix)
+    const sha = tree.find(
+      (f) => f.path === `.github/workflows/${payload.file}`
+    ).sha
+    await this.$axios.$put(
+      urlPrefix + 'contents/' + `.github/workflows/${payload.file}`,
+      {
+        content: btoa(payload.data),
+        message: 'update workflow',
+        ...(sha ? { sha } : {}),
+      }
+    )
+  },
+
   async writeData({ rootGetters }) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     const getters = rootGetters
