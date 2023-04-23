@@ -106,20 +106,24 @@ export const actions = {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     commit('removeArticles', title)
     await dispatch('git/writeArticles', {})
+    await dispatch('git/triggerWorkflow', {}, { root: true })
   },
   async publishArticle({ commit, dispatch }, title) {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     commit('setArticlePublished', title)
     await dispatch('git/writeArticles', {})
+    await dispatch('git/triggerWorkflow', {}, { root: true })
   },
   async updateArticle({ commit, dispatch }, payload) {
     commit('updateArticle', payload)
     await new Promise((resolve) => setTimeout(resolve, 2000))
     await dispatch('git/writeArticles', {})
+    await dispatch('git/triggerWorkflow', {}, { root: true })
   },
   async createArticle({ commit, dispatch }, article) {
     commit('createArticle', article)
     await new Promise((resolve) => setTimeout(resolve, 2000))
     await dispatch('git/writeArticles', {})
+    await dispatch('git/triggerWorkflow', {}, { root: true })
   },
 }

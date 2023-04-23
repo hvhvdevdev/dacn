@@ -66,15 +66,18 @@ export const actions = {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('deleteEntry', payload)
     await dispatch('git/writeData', {}, { root: true })
+    await dispatch('git/triggerWorkflow', {}, { root: true })
   },
   async editEntry({ commit, dispatch }, payload) {
     commit('updateEntry', payload)
     await new Promise((resolve) => setTimeout(resolve, 1000))
     await dispatch('git/writeData', {}, { root: true })
+    await dispatch('git/triggerWorkflow', {}, { root: true })
   },
   async createEntry({ commit, dispatch }, payload) {
     commit('createEntry', payload)
     await new Promise((resolve) => setTimeout(resolve, 1000))
     await dispatch('git/writeData', {}, { root: true })
+    await dispatch('git/triggerWorkflow', {}, { root: true })
   },
 }
