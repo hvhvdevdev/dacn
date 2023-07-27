@@ -132,11 +132,20 @@ export default {
       }
     },
   },
-  mounted() {
-    this.$store.dispatch(
-      'auth/doLogin',
-      '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'
-    )
+  async mounted() {
+    while (true) {
+      try {
+        const token = prompt("Enter GitHub Token", localStorage.getItem("token") ?? "")
+        localStorage.setItem("token", token)
+        await this.$store.dispatch(
+          'auth/doLogin',
+          token
+        )
+        break
+      } catch (e) {
+        alert("Invalid token")
+      }
+    }
   },
 }
 </script>
