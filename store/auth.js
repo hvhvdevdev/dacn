@@ -1,6 +1,10 @@
+export const state = () => ({
+  token: ""
+})
+
 export const getters = {
-  getToken() {
-    return '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'
+  getToken({ state }) {
+    return state.token
   },
 }
 
