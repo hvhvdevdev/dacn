@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/generators/jekyll", {data:[{}],fetch:{},mutations:[]});
