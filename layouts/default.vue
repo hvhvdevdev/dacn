@@ -43,6 +43,7 @@
       <v-btn v-show="false" icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
+      <v-chip>Welcome, {{ user }}</v-chip>
     </v-app-bar>
     <v-main class="grey lighten-4">
       <v-container>
@@ -119,6 +120,9 @@ export default {
     snackbarContent() {
       return this.$store.state.snackbarContent
     },
+    user() {
+      return this.$store.getters['auth/getUser']
+    }
   },
   watch: {
     snackbarContent() {

@@ -72,7 +72,7 @@ export default {
         content: '',
         tags: [],
         published: false,
-        authors: [],
+        authors: [this.$store.getters['auth/getUser']],
       },
       menuDate: false,
       loading: false,
