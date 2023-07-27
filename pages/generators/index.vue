@@ -16,7 +16,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-btn v-if="generator.active" text color="warning">In Use </v-btn>
-          <v-btn v-else text color="success" disabled>N/A </v-btn>
+          <v-btn v-else text color="success">Activate </v-btn>
           <v-btn text color="info" :to="generator.link">Settings</v-btn>
         </v-card-actions>
       </v-card>
@@ -38,9 +38,9 @@ export default {
           link: '/generators/jekyll',
         },
         {
-          title: 'LaTeX',
+          title: 'Zola',
           description:
-            'LaTeX is a software system for document preparation. When writing, the writer uses plain text as opposed to the formatted text found in WYSIWYG word processors like Microsoft Word, LibreOffice Writer and Apple Pages',
+            'A fast static site generator in a single binary with everything built-in',
           active: false,
         },
         {

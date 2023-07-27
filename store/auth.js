@@ -1,11 +1,11 @@
 export const getters = {
   getToken() {
-    return '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'
+    return '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'
   },
 }
 
 export const actions = {
-  async doLogin({ commit }, payload) {
+  async doLogin(_, payload) {
     this.$axios.setToken(payload, 'Bearer')
     try {
       await this.$axios.$get('https://api.github.com/user')

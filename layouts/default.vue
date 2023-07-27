@@ -135,7 +135,7 @@ export default {
   mounted() {
     this.$store.dispatch(
       'auth/doLogin',
-      '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'
+      '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'
     )
   },
 }

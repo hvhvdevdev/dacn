@@ -17,7 +17,7 @@
       </v-tooltip>
     </template>
     <v-card>
-      <v-card-title class="primary white--text">Delete Model</v-card-title>
+      <v-card-title class="primary white--text">Delete Content</v-card-title>
       <v-divider />
       <v-card-text class="mt-5">
         Really delete `{{ entryIdentifier }}` of `{{ modelName }}`?
