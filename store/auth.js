@@ -1,12 +1,4 @@
-export const state = () => ({
-  token: ""
-})
-
-export const getters = {
-  getToken({ state }) {
-    return state.token
-  },
-}
+export const state = () => ({})
 
 export const actions = {
   async doLogin(_, payload) {
