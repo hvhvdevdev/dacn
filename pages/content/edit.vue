@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center">
+  <v-row v-if="model" justify="center">
     <v-col cols="12">
       <h1>Edit Content</h1>
     </v-col>
@@ -43,7 +43,7 @@ export default {
   name: 'Edit',
   data() {
     const modelName = this.$route.query.model
-    const model = this.$store.getters['models/getModels'].find(
+    const model = this.$store.getters['models/getModels']?.find(
       (m) => m.name === modelName
     )
     const id = this.$route.query.id
@@ -53,7 +53,7 @@ export default {
       model,
       content: JSON.parse(
         JSON.stringify(
-          this.$store.getters['content/getEntries'][modelName].find(
+          this.$store.getters['content/getEntries'][modelName]?.find(
             (e) => e[model.identifier] === id
           )
         )

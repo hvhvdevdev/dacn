@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center">
+  <v-row v-if="model" justify="center">
     <v-col cols="12">
       <h1>Create Content</h1>
     </v-col>
