@@ -22,6 +22,9 @@ export const mutations = {
     state.repository = payload.repository
     state.generator = 'jekyll.yml'
   },
+  setRepository(state, payload) {
+    state.repository = payload
+  }
 }
 
 export const actions = {
@@ -35,6 +38,10 @@ export const actions = {
     )
     await dispatch('git/triggerWorkflow', {}, { root: true })
   },
+  async setRepository({ commit, dispatch }, payload) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    commit('setRepository', payload)
+  }
 }
 
 const JEKYLL = `\

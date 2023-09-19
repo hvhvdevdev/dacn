@@ -47,7 +47,8 @@
     </v-app-bar>
     <v-main class="grey lighten-4">
       <v-container>
-        <Nuxt />
+        <Nuxt v-if="user" />
+        <CheckLogin v-if="!user"/>
       </v-container>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
@@ -137,7 +138,7 @@ export default {
     },
   },
   async mounted() {
-    while (true) {
+    while (false) {
       try {
         const token = prompt("Enter GitHub Token", localStorage.getItem("token") ?? "")
         localStorage.setItem("token", token)
