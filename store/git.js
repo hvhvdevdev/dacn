@@ -39,12 +39,29 @@ export const actions = {
     const tree = await getTree.call(this, urlPrefix)
     const sha = tree.find(
       (f) => f.path === `.github/workflows/${payload.file}`
-    ).sha
+    )?.sha
     await this.$axios.$put(
       urlPrefix + 'contents/' + `.github/workflows/${payload.file}`,
       {
         content: btoa(payload.data),
         message: 'update workflow',
+        ...(sha ? { sha } : {}),
+      }
+    )
+  },
+
+  async writeConfig({ rootGetters }, payload) {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    const urlPrefix = `https://api.github.com/repos/${rootGetters['generator/getRepository']}/`
+    const tree = await getTree.call(this, urlPrefix)
+    const sha = tree.find(
+      (f) => f.path === `.cms/${payload.file}`
+    )?.sha
+    await this.$axios.$put(
+      urlPrefix + 'contents/' + `.cms/${payload.file}`,
+      {
+        content: btoa(payload.data),
+        message: 'update data',
         ...(sha ? { sha } : {}),
       }
     )

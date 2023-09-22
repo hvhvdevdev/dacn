@@ -102,28 +102,32 @@ export const actions = {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('setArticles', articles)
   },
-  async deleteArticle({ commit, dispatch }, title) {
+  async deleteArticle({ commit, dispatch, state }, title) {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     commit('removeArticles', title)
     await dispatch('git/writeArticles', {})
     await dispatch('git/triggerWorkflow', {}, { root: true })
+    await dispatch('git/writeConfig', { file: 'articles.json', data: JSON.stringify(state.articles) })
   },
-  async publishArticle({ commit, dispatch }, title) {
+  async publishArticle({ commit, dispatch, state }, title) {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     commit('setArticlePublished', title)
     await dispatch('git/writeArticles', {})
     await dispatch('git/triggerWorkflow', {}, { root: true })
+    await dispatch('git/writeConfig', { file: 'articles.json', data: JSON.stringify(state.articles) })
   },
-  async updateArticle({ commit, dispatch }, payload) {
+  async updateArticle({ commit, dispatch, state }, payload) {
     commit('updateArticle', payload)
     await new Promise((resolve) => setTimeout(resolve, 2000))
     await dispatch('git/writeArticles', {})
     await dispatch('git/triggerWorkflow', {}, { root: true })
+    await dispatch('git/writeConfig', { file: 'articles.json', data: JSON.stringify(state.articles) })
   },
-  async createArticle({ commit, dispatch }, article) {
+  async createArticle({ commit, dispatch, state }, article) {
     commit('createArticle', article)
     await new Promise((resolve) => setTimeout(resolve, 2000))
     await dispatch('git/writeArticles', {})
     await dispatch('git/triggerWorkflow', {}, { root: true })
+    await dispatch('git/writeConfig', { file: 'articles.json', data: JSON.stringify(state.articles) })
   },
 }

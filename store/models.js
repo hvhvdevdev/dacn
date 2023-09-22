@@ -77,17 +77,20 @@ export const mutations = {
 }
 
 export const actions = {
-  async addModel({ commit }, model) {
+  async addModel({ commit, state, dispatch }, model) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('addModel', model)
     commit('content/addModel', model.name, { root: true })
+    await dispatch('git/writeConfig', { file: 'models.json', data: JSON.stringify(state.models) }, {root: true})
   },
-  async deleteModel({ commit }, name) {
+  async deleteModel({ commit, state, dispatch }, name) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('deleteModel', name)
+    await dispatch('git/writeConfig', { file: 'models.json', data: JSON.stringify(state.models) }, {root: true})
   },
-  async updateModel({ commit }, payload) {
+  async updateModel({ commit, state, dispatch }, payload) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('updateModel', payload)
+    await dispatch('git/writeConfig', { file: 'models.json', data: JSON.stringify(state.entries) }, {root: true})
   },
 }

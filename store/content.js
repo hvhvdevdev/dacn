@@ -62,22 +62,25 @@ export const mutations = {
 }
 
 export const actions = {
-  async deleteEntry({ commit, dispatch }, payload) {
+  async deleteEntry({ commit, dispatch, state }, payload) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('deleteEntry', payload)
     await dispatch('git/writeData', {}, { root: true })
     await dispatch('git/triggerWorkflow', {}, { root: true })
+    await dispatch('git/writeConfig', { file: 'content.json', data: JSON.stringify(state.entries) }, {root: true})
   },
-  async editEntry({ commit, dispatch }, payload) {
+  async editEntry({ commit, dispatch, state }, payload) {
     commit('updateEntry', payload)
     await new Promise((resolve) => setTimeout(resolve, 1000))
     await dispatch('git/writeData', {}, { root: true })
     await dispatch('git/triggerWorkflow', {}, { root: true })
+    await dispatch('git/writeConfig', { file: 'content.json', data: JSON.stringify(state.entries) }, {root: true})
   },
-  async createEntry({ commit, dispatch }, payload) {
+  async createEntry({ commit, dispatch, state }, payload) {
     commit('createEntry', payload)
     await new Promise((resolve) => setTimeout(resolve, 1000))
     await dispatch('git/writeData', {}, { root: true })
     await dispatch('git/triggerWorkflow', {}, { root: true })
+    await dispatch('git/writeConfig', { file: 'content.json', data: JSON.stringify(state.entries) }, {root: true})
   },
 }
