@@ -91,6 +91,6 @@ export const actions = {
   async updateModel({ commit, state, dispatch }, payload) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('updateModel', payload)
-    await dispatch('git/writeConfig', { file: 'models.json', data: JSON.stringify(state.entries) }, {root: true})
+    await dispatch('git/writeConfig', { file: 'models.json', data: JSON.stringify(state.models) }, {root: true})
   },
 }
