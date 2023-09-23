@@ -29,7 +29,7 @@
             "
             >Edit</v-btn
           >
-          <v-btn text color="success">Content</v-btn>
+          <v-btn text color="success" :to="'/content/create?model=' + model.name">Content</v-btn>
           <DeleteModelButton :model-name="model.name" />
         </v-card-actions>
       </v-card>
