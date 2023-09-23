@@ -45,6 +45,9 @@ export default {
       return this.$store.getters['models/getModels']
     },
   },
+  mounted() {
+    this.$store.dispatch('models/loadModels')
+  }
 }
 </script>
 

@@ -24,14 +24,18 @@ export const mutations = {
   },
   setRepository(state, payload) {
     state.repository = payload
-  }
+  },
 }
 
 export const actions = {
   async setJekyllSettings({ commit, dispatch, state }, payload) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('setJekyllSettings', payload)
-    await dispatch('git/writeConfig', { file: 'generator.json', data: JSON.stringify(state) }, {root: true})
+    await dispatch(
+      'git/writeConfig',
+      { file: 'generator.json', data: JSON.stringify(state) },
+      { root: true }
+    )
     await dispatch(
       'git/writeWorkflow',
       { file: 'jekyll.yml', data: JEKYLL },
@@ -43,7 +47,7 @@ export const actions = {
   async setRepository({ commit, dispatch }, payload) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('setRepository', payload)
-  }
+  },
 }
 
 const JEKYLL = `\

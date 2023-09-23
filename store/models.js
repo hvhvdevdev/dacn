@@ -1,59 +1,5 @@
 export const state = () => ({
   models: [
-    {
-      name: 'Nation',
-      identifier: 'code',
-      fields: [
-        {
-          field: 'code',
-          widget: 'text',
-        },
-        {
-          field: 'name',
-          widget: 'text',
-        },
-        {
-          field: 'description',
-          widget: 'rich-text',
-        },
-      ],
-    },
-    {
-      name: 'Battle',
-      identifier: 'code',
-      fields: [
-        {
-          field: 'code',
-          widget: 'text',
-        },
-        {
-          field: 'name',
-          widget: 'text',
-        },
-        {
-          field: 'defender',
-          widget: 'select',
-          model: 'Nation',
-        },
-        {
-          field: 'attacker',
-          widget: 'select',
-          model: 'Nation',
-        },
-        {
-          field: 'defender-loss',
-          widget: 'number',
-        },
-        {
-          field: 'attacker-loss',
-          widget: 'number',
-        },
-        {
-          field: 'description',
-          widget: 'rich-text',
-        },
-      ],
-    },
   ],
 })
 
@@ -74,6 +20,9 @@ export const mutations = {
     const index = state.models.findIndex((m) => m.name === payload.modelName)
     state.models[index] = payload.newModel
   },
+  setModels(state, models) {
+    state.models = models
+  },
 }
 
 export const actions = {
@@ -81,16 +30,39 @@ export const actions = {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('addModel', model)
     commit('content/addModel', model.name, { root: true })
-    await dispatch('git/writeConfig', { file: 'models.json', data: JSON.stringify(state.models) }, {root: true})
+    await dispatch(
+      'git/writeConfig',
+      { file: 'models.json', data: JSON.stringify(state.models) },
+      { root: true }
+    )
   },
   async deleteModel({ commit, state, dispatch }, name) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('deleteModel', name)
-    await dispatch('git/writeConfig', { file: 'models.json', data: JSON.stringify(state.models) }, {root: true})
+    await dispatch(
+      'git/writeConfig',
+      { file: 'models.json', data: JSON.stringify(state.models) },
+      { root: true }
+    )
   },
   async updateModel({ commit, state, dispatch }, payload) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('updateModel', payload)
-    await dispatch('git/writeConfig', { file: 'models.json', data: JSON.stringify(state.models) }, {root: true})
+    await dispatch(
+      'git/writeConfig',
+      { file: 'models.json', data: JSON.stringify(state.models) },
+      { root: true }
+    )
+  },
+  async loadModels({ commit, state, dispatch }) {
+    let models = state.models
+    commit('setModels', [])
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      models = JSON.parse(
+        atob((await dispatch('git/loadConfig', 'models.json', { root: true })).content)
+      )
+    } catch (e) {}
+    commit('setModels', models)
   },
 }

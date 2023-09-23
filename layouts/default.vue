@@ -48,7 +48,7 @@
     <v-main class="grey lighten-4">
       <v-container>
         <Nuxt v-if="user" />
-        <CheckLogin v-if="!user"/>
+        <CheckLogin v-if="!user" />
       </v-container>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
@@ -123,7 +123,7 @@ export default {
     },
     user() {
       return this.$store.getters['auth/getUser']
-    }
+    },
   },
   watch: {
     snackbarContent() {
@@ -140,15 +140,15 @@ export default {
   async mounted() {
     while (false) {
       try {
-        const token = prompt("Enter GitHub Token", localStorage.getItem("token") ?? "")
-        localStorage.setItem("token", token)
-        await this.$store.dispatch(
-          'auth/doLogin',
-          token
+        const token = prompt(
+          'Enter GitHub Token',
+          localStorage.getItem('token') ?? ''
         )
+        localStorage.setItem('token', token)
+        await this.$store.dispatch('auth/doLogin', token)
         break
       } catch (e) {
-        alert("Invalid token")
+        alert('Invalid token')
       }
     }
   },

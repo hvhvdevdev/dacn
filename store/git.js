@@ -54,17 +54,17 @@ export const actions = {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     const urlPrefix = `https://api.github.com/repos/${rootGetters['generator/getRepository']}/`
     const tree = await getTree.call(this, urlPrefix)
-    const sha = tree.find(
-      (f) => f.path === `.cms/${payload.file}`
-    )?.sha
-    await this.$axios.$put(
-      urlPrefix + 'contents/' + `.cms/${payload.file}`,
-      {
-        content: btoa(payload.data),
-        message: 'update data',
-        ...(sha ? { sha } : {}),
-      }
-    )
+    const sha = tree.find((f) => f.path === `.cms/${payload.file}`)?.sha
+    await this.$axios.$put(urlPrefix + 'contents/' + `.cms/${payload.file}`, {
+      content: btoa(payload.data),
+      message: 'update data',
+      ...(sha ? { sha } : {}),
+    })
+  },
+
+  async loadConfig({ rootGetters }, payload) {
+    const urlPrefix = `https://api.github.com/repos/${rootGetters['generator/getRepository']}/`
+    return await this.$axios.$get(urlPrefix + 'contents/' + `.cms/${payload}`)
   },
 
   async writeData({ rootGetters }) {
