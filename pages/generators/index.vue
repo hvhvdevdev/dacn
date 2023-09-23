@@ -15,9 +15,9 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn v-if="generator.active" text color="warning">In Use </v-btn>
-          <v-btn v-else text color="success">Activate </v-btn>
-          <v-btn text color="info" :to="generator.link">Settings</v-btn>
+          <v-btn v-if="generator.active" text color="warning">In Use</v-btn>
+          <v-btn v-else text color="success" :to="generator.link">Activate</v-btn>
+          <v-btn text color="info" :to="generator.link" :disabled="!generator.active">Settings</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -42,12 +42,14 @@ export default {
           description:
             'A fast static site generator in a single binary with everything built-in',
           active: false,
+          link: '/generators/zola'
         },
         {
           title: 'Hugo',
           description:
             'Hugo is a static site generator written in Go. Steve Francia originally created Hugo as an open source project in 2013',
           active: false,
+          link: '/generators/hugo'
         },
       ],
     }

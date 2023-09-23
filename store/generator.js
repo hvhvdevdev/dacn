@@ -20,7 +20,7 @@ export const mutations = {
   setJekyllSettings(state, payload) {
     state.postLayout = payload.postLayout
     state.repository = payload.repository
-    state.generator = 'jekyll.yml'
+    state.generator = payload.generator
   },
   setRepository(state, payload) {
     state.repository = payload
@@ -38,13 +38,13 @@ export const actions = {
     )
     await dispatch(
       'git/writeWorkflow',
-      { file: 'jekyll.yml', data: JEKYLL },
+      { file: payload.generator, data: payload.generator === 'jekyll.yml' ? JEKYLL : payload.generator === 'zola.yml' ? ZOLA : HUGO },
       { root: true }
     )
     await dispatch('git/triggerWorkflow', {}, { root: true })
   },
 
-  async setRepository({ commit, dispatch }, payload) {
+  async setRepository({ commit }, payload) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     commit('setRepository', payload)
   },
@@ -111,4 +111,28 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+`
+
+const ZOLA = `\
+# On every push this script is executed
+on: push
+name: Build and deploy GH Pages
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3.0.0
+      - name: build_and_deploy
+        uses: shalzz/zola-deploy-action@v0.17.2
+        env:
+          # Target branch
+          PAGES_BRANCH: gh-pages
+          # Or if publishing to the same repo, use the automatic token
+          TOKEN: \${{ secrets.GITHUB_TOKEN }}
+`
+
+const HUGO = `
+hugo
 `

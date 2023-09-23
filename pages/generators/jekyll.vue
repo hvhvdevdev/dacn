@@ -50,6 +50,7 @@ export default {
     async saveSettings() {
       this.loading = true
       await this.$store.dispatch('generator/setJekyllSettings', {
+        generator: 'jekyll.yml',
         postLayout: this.postLayout,
         repository: this.repository,
       })
