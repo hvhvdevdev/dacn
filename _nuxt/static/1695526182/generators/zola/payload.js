@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/generators/zola", {data:[{}],fetch:{},mutations:[]});
