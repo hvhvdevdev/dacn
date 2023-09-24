@@ -83,5 +83,8 @@ export default {
       return Math.round((this.countArticles / this.countAuthors) * 10) / 10
     },
   },
+  mounted() {
+    this.$store.dispatch('loadArticles')
+  }
 }
 </script>
